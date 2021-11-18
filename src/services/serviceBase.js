@@ -36,7 +36,7 @@ function getHeaders(url) {
 }
 
 function getUrl(url) {
-  let base_url = "http://172.31.46.133:3001";
+  let base_url = "http://18.217.142.46:3001";
   //noinspection JSUnresolvedVariable
   return `${base_url}${url}`;
 }
