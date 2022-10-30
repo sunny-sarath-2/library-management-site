@@ -65,7 +65,7 @@ export const secondaryListItems = (
         <ListItemText primary="Profile" />
       </ListItem>
     </NavLink>
-    <NavLink
+    {/* <NavLink
       to="/dashboard"
       style={{ textDecoration: "none", color: "inherit" }}
     >
@@ -75,6 +75,6 @@ export const secondaryListItems = (
         </ListItemIcon>
         <ListItemText primary="Settings" />
       </ListItem>
-    </NavLink>
+    </NavLink> */}
   </div>
 );

@@ -18,15 +18,20 @@ export default class Landing extends React.Component {
   }
 
   getUser = async (id) => {
-    let result = await API.getUserById(id);
-    this.setState({
-      user: result.result,
-    });
+    try {
+      let result = await API.getUserById(id);
+      this.setState({
+        user: result.result,
+      });
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
+    }
   };
 
   render() {
     return (
-      <Dashboard>
+      <Dashboard {...this.props}>
         <Grid item xs={12} md={12} lg={12}>
           <Paper
             sx={{

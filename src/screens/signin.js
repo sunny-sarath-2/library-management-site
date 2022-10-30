@@ -46,20 +46,32 @@ export default class SignIn extends React.Component {
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
 
-    const result = await API.login({
-      username: data.get("username"),
-      password: data.get("password"),
-    });
+    try {
+      const result = await API.login({
+        username: data.get("username"),
+        password: data.get("password"),
+      });
 
-    console.log(result);
-    if (result?.result.length !== 0) {
-      localStorage.setItem("jwt", result.token);
-      localStorage.setItem("user", result?.result[0]._id);
-      this.props.history.push("/dashboard");
-    } else {
-      alert("user not vlid");
+      console.log(result);
+      if (result?.result.length !== 0) {
+        localStorage.setItem("jwt", result.token);
+        localStorage.setItem("user", result?.result[0]._id);
+        this.props.history.push("/dashboard");
+      } else {
+        alert("user not valid");
+      }
+    } catch (error) {
+      alert("user not valid");
     }
   };
+
+  componentWillMount() {
+    let user = localStorage.getItem("user");
+    let jwt = localStorage.getItem("jwt");
+    if (user && jwt) {
+      this.props.history.push("/dashboard");
+    }
+  }
 
   render() {
     return (
@@ -91,7 +103,7 @@ export default class SignIn extends React.Component {
                 required
                 fullWidth
                 id="email"
-                label="USer Name"
+                label="User Name"
                 name="username"
                 autoFocus
               />

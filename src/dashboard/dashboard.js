@@ -15,8 +15,8 @@ import Grid from "@mui/material/Grid";
 
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
+import LogoutIcon from "@mui/icons-material/Logout";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
 
 function Copyright(props) {
@@ -91,6 +91,18 @@ function DashboardContent(props) {
     setOpen(!open);
   };
 
+  React.useEffect(() => {
+    let user = localStorage.getItem("user");
+    let jwt = localStorage.getItem("jwt");
+    if (!user && !jwt) {
+      props.history.replace("/signin");
+    }
+  });
+
+  const logout = () => {
+    localStorage.clear();
+    props.history.replace("/signin");
+  };
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{ display: "flex" }}>
@@ -123,9 +135,9 @@ function DashboardContent(props) {
               Dashboard
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
+              {/* <Badge badgeContent={4} color="secondary"> */}
+              <LogoutIcon onClick={logout} />
+              {/* </Badge> */}
             </IconButton>
           </Toolbar>
         </AppBar>

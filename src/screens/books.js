@@ -35,18 +35,28 @@ export default class Books extends Component {
   }
 
   getUser = async (id) => {
-    let result = await API.getUserById(id);
-    this.setState({
-      user: result.result,
-    });
-    console.log(result);
+    try {
+      let result = await API.getUserById(id);
+      this.setState({
+        user: result.result,
+      });
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
+    }
   };
 
   getBooks = async () => {
-    let result = await API.getBooks();
-    this.setState({
-      books: result.result,
-    });
+    try {
+      let result = await API.getBooks();
+      console.log(result);
+      this.setState({
+        books: result.result,
+      });
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
+    }
   };
 
   handleSearch = (e) => {
@@ -55,35 +65,45 @@ export default class Books extends Component {
   };
 
   searchBook = async (searchBook) => {
-    let result = await API.searchBook(searchBook);
-    this.setState({
-      books: result.result,
-    });
+    try {
+      let result = await API.searchBook(searchBook);
+      this.setState({
+        books: result.result,
+      });
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
+    }
   };
 
   handleButtonClick = async (_id) => {
-    let result = await API.attachBook({
-      newBookId: _id,
-      ...this.state.user,
-    });
-
-    if (result.result.modifiedCount === 1) {
-      this.setState({
-        alert: true,
-        alertMessage: "Book Added Successfully",
+    try {
+      let result = await API.attachBook({
+        newBookId: _id,
+        ...this.state.user,
       });
-      let timeout = setTimeout(() => {
+
+      if (result.result.modifiedCount === 1) {
         this.setState({
-          alert: false,
+          alert: true,
+          alertMessage: "Book Added Successfully",
         });
-      }, 3000);
-      clearTimeout(timeout);
+        let timeout = setTimeout(() => {
+          this.setState({
+            alert: false,
+          });
+        }, 3000);
+        clearTimeout(timeout);
+      }
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
     }
   };
 
   render() {
     return (
-      <Dashboard>
+      <Dashboard {...this.props}>
         <FormControl fullWidth sx={{ m: 1 }} variant="standard">
           <InputLabel>Search</InputLabel>
           <Input

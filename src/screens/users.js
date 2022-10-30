@@ -11,19 +11,19 @@ import FormControl from "@mui/material/FormControl";
 import SearchIcon from "@mui/icons-material/Search";
 
 const columns = [
-  { id: "username", label: "Name", minWidth: 170 },
-  { id: "email", label: "Email", minWidth: 100 },
+  { id: "username", label: "Name" },
+  { id: "email", label: "Email" },
   {
     id: "type",
     label: "Type",
-    minWidth: 170,
+
     align: "right",
     format: (value) => (value === 1 ? "librarian" : "student"),
   },
   {
     id: "books",
     label: "books",
-    minWidth: 170,
+
     align: "right",
     format: (value) => value.length,
   },
@@ -43,11 +43,16 @@ export default class Users extends Component {
   }
 
   getUsers = async () => {
-    let result = await API.getUsers();
-    console.log(result.result);
-    this.setState({
-      users: result.result,
-    });
+    try {
+      let result = await API.getUsers();
+      console.log(result.result);
+      this.setState({
+        users: result.result,
+      });
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
+    }
   };
 
   handleSearch = (e) => {
@@ -56,19 +61,24 @@ export default class Users extends Component {
   };
 
   searchUser = async (searchUser) => {
-    if (searchUser !== "") {
-      let result = await API.searchUser(searchUser);
-      this.setState({
-        users: result.result,
-      });
-    } else {
-      this.getUsers();
+    try {
+      if (searchUser !== "") {
+        let result = await API.searchUser(searchUser);
+        this.setState({
+          users: result.result,
+        });
+      } else {
+        this.getUsers();
+      }
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
     }
   };
 
   render() {
     return (
-      <Dashboard>
+      <Dashboard {...this.props}>
         <FormControl fullWidth sx={{ m: 1 }} variant="standard">
           <InputLabel>Search</InputLabel>
           <Input

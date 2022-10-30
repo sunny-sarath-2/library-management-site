@@ -49,7 +49,7 @@ const serviceBase = {
   get: async (url) => {
     credentials.headers = getHeaders(url);
     let response = await fetch(getUrl(url), credentials);
-    // response = await checkStatus(response);
+    response = await checkStatus(response);
 
     return response.json();
   },
@@ -65,7 +65,7 @@ const serviceBase = {
       getUrl(url),
       Object.assign(options, credentials)
     );
-    // response = await checkStatus(response);
+    response = await checkStatus(response);
 
     return response.json();
   },

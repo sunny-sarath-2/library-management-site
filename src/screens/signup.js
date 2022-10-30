@@ -13,6 +13,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { NavLink } from "react-router-dom";
+import API from "../services/API";
+import Alert from "../components/alert";
 
 function Copyright(props) {
   return (
@@ -34,15 +36,35 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp() {
-  const handleSubmit = (event) => {
+export default function SignUp(props) {
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    let firstName = data.get("firstName");
+    let email = data.get("email");
+    let password = data.get("password");
+    if (firstName && email && password) {
+      let result = await API.createUser({
+        username: firstName,
+        email: email,
+        password: password,
+        type: 2,
+        status: true,
+        books: [],
+      });
+      if (result.status == 200) {
+        props.history.replace("/signin");
+      }
+    } else {
+      setAlertOpen(true);
+      let timeout = setTimeout(() => {
+        setAlertOpen(false);
+        console.log("called");
+        clearTimeout(timeout);
+      }, 3000);
+    }
   };
 
   return (
@@ -83,7 +105,6 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   fullWidth
                   id="lastName"
                   label="Last Name"
@@ -139,6 +160,11 @@ export default function SignUp() {
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
+        <Alert
+          type={"error"}
+          open={alertOpen}
+          message={"enter all required fields"}
+        />
       </Container>
     </ThemeProvider>
   );

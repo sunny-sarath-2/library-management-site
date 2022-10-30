@@ -30,43 +30,58 @@ export default class MyBooks extends Component {
   }
 
   getUser = async (id) => {
-    let result = await API.getUserById(id);
-    this.setState({
-      user: result.result,
-    });
+    try {
+      let result = await API.getUserById(id);
+      this.setState({
+        user: result.result,
+      });
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
+    }
   };
 
   getBooks = async (_id) => {
-    let result = await API.getuserBooks(_id);
+    try {
+      let result = await API.getuserBooks(_id);
 
-    this.setState({
-      books: result?.result?.books || [],
-    });
+      this.setState({
+        books: result?.result?.books || [],
+      });
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
+    }
   };
 
   handleButtonClick = async (_id) => {
-    let result = await API.detachBook({
-      oldBookId: _id,
-      ...this.state.user,
-    });
-    if (result.result.modifiedCount === 1) {
-      this.setState({
-        alert: true,
-        alertMessage: "Book Submitted Successfully",
+    try {
+      let result = await API.detachBook({
+        oldBookId: _id,
+        ...this.state.user,
       });
-      let timeout = setTimeout(() => {
+      if (result.result.modifiedCount === 1) {
         this.setState({
-          alert: false,
+          alert: true,
+          alertMessage: "Book Submitted Successfully",
         });
-      }, 3000);
-      clearTimeout(timeout);
-      this.getBooks(this.state.userId);
+        let timeout = setTimeout(() => {
+          this.setState({
+            alert: false,
+          });
+        }, 3000);
+        clearTimeout(timeout);
+        this.getBooks(this.state.userId);
+      }
+    } catch (error) {
+      localStorage.clear();
+      this.props.history.replace("/signin");
     }
   };
 
   render() {
     return (
-      <Dashboard>
+      <Dashboard {...this.props}>
         <Album
           books={this.state.books}
           myBook={true}
