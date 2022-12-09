@@ -13,5 +13,6 @@ const productService = {
   attachBook: (payload) => serviceBase.post("/api/handlebooks/attach", payload),
   detachBook: (payload) => serviceBase.post("/api/handlebooks/detach", payload),
   createUser: (payload) => serviceBase.post("/api/users", payload),
+  createBook: (payload) => serviceBase.post("/api/books", payload),
 };
 export default productService;

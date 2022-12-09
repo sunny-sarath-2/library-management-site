@@ -7,49 +7,73 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import BookIcon from "@mui/icons-material/Book";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import SettingsIcon from "@mui/icons-material/Settings";
+import { getUserType } from "../common/common";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import { NavLink } from "react-router-dom";
 
-export const mainListItems = (
-  <div>
-    <NavLink
-      to="/dashboard"
-      style={{ textDecoration: "none", color: "inherit" }}
-    >
-      <ListItem button>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItem>
-    </NavLink>
-    <NavLink to="/books" style={{ textDecoration: "none", color: "inherit" }}>
-      <ListItem button>
-        <ListItemIcon>
-          <LibraryBooksIcon />
-        </ListItemIcon>
-        <ListItemText primary="Books" />
-      </ListItem>
-    </NavLink>
-    <NavLink to="/users" style={{ textDecoration: "none", color: "inherit" }}>
-      <ListItem button>
-        <ListItemIcon>
-          <PeopleOutlineIcon />
-        </ListItemIcon>
-        <ListItemText primary="Users" />
-      </ListItem>
-    </NavLink>
-    <NavLink to="/mybooks" style={{ textDecoration: "none", color: "inherit" }}>
-      <ListItem button>
-        <ListItemIcon>
-          <BookIcon />
-        </ListItemIcon>
-        <ListItemText primary="My books" />
-      </ListItem>
-    </NavLink>
-  </div>
-);
+export function mainListItems() {
+  const userType = getUserType();
+  return (
+    <div>
+      <NavLink
+        to="/dashboard"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <DashboardIcon />
+          </ListItemIcon>
+          <ListItemText primary="Dashboard" />
+        </ListItem>
+      </NavLink>
+      <NavLink to="/books" style={{ textDecoration: "none", color: "inherit" }}>
+        <ListItem button>
+          <ListItemIcon>
+            <LibraryBooksIcon />
+          </ListItemIcon>
+          <ListItemText primary="Books" />
+        </ListItem>
+      </NavLink>
+      {userType == 2 ? null : (
+        <>
+          <NavLink
+            to="/users"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <PeopleOutlineIcon />
+              </ListItemIcon>
+              <ListItemText primary="Users" />
+            </ListItem>
+          </NavLink>
+          <NavLink
+            to="/add-books"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <PeopleOutlineIcon />
+              </ListItemIcon>
+              <ListItemText primary="Add Books" />
+            </ListItem>
+          </NavLink>
+        </>
+      )}
+      <NavLink
+        to="/mybooks"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        <ListItem button>
+          <ListItemIcon>
+            <BookIcon />
+          </ListItemIcon>
+          <ListItemText primary="My books" />
+        </ListItem>
+      </NavLink>
+    </div>
+  );
+}
 
 export const secondaryListItems = (
   <div>

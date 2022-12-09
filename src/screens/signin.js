@@ -48,7 +48,7 @@ export default class SignIn extends React.Component {
 
     try {
       const result = await API.login({
-        username: data.get("username"),
+        email: data.get("email"),
         password: data.get("password"),
       });
 
@@ -56,6 +56,7 @@ export default class SignIn extends React.Component {
       if (result?.result.length !== 0) {
         localStorage.setItem("jwt", result.token);
         localStorage.setItem("user", result?.result[0]._id);
+        localStorage.setItem("userType", result?.result[0].type);
         this.props.history.push("/dashboard");
       } else {
         alert("user not valid");
@@ -103,8 +104,8 @@ export default class SignIn extends React.Component {
                 required
                 fullWidth
                 id="email"
-                label="User Name"
-                name="username"
+                label="Email"
+                name="email"
                 autoFocus
               />
               <TextField

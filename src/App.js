@@ -6,6 +6,7 @@ import Books from "./screens/books";
 import Users from "./screens/users";
 import MyBooks from "./screens/mybooks";
 import Landing from "./screens/landing";
+import AddBooks from "./screens/addBooks";
 
 class Main extends React.Component {
   render() {
@@ -19,6 +20,7 @@ class Main extends React.Component {
           <Route path="/book/:id" exact component={Books} />
           <Route path="/users" exact component={Users} />
           <Route path="/mybooks" exact component={MyBooks} />
+          <Route path="/add-books" exact component={AddBooks} />
           <Route path="*" component={Signin} />
         </Switch>
       </Router>

@@ -58,9 +58,6 @@ export default function Album(props) {
                         ? `${book?.title.slice(0, 20)}...`
                         : book?.title}
                     </Typography>
-                    <Typography variant="h6" component="h6">
-                      ${book.price}
-                    </Typography>
                   </CardContent>
                   <CardActions>
                     <Button

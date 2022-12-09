@@ -8,6 +8,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Switch from "@mui/material/Switch";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
@@ -37,6 +38,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignUp(props) {
+  const [isLibrarian, setIsLibrarian] = React.useState(false);
   const [alertOpen, setAlertOpen] = React.useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,12 +47,14 @@ export default function SignUp(props) {
     let firstName = data.get("firstName");
     let email = data.get("email");
     let password = data.get("password");
+    let lastName = data.get("lastName");
     if (firstName && email && password) {
       let result = await API.createUser({
         username: firstName,
+        lastName: lastName,
         email: email,
         password: password,
-        type: 2,
+        type: isLibrarian ? 1 : 2,
         status: true,
         books: [],
       });
@@ -106,6 +110,7 @@ export default function SignUp(props) {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
+                  required
                   id="lastName"
                   label="Last Name"
                   name="lastName"
@@ -131,6 +136,18 @@ export default function SignUp(props) {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography component="subtitle1" variant="subtitle1">
+                  Is Librarian
+                </Typography>
+                <Switch
+                  onChange={() => {
+                    console.log(isLibrarian);
+                    setIsLibrarian(!isLibrarian);
+                  }}
+                  checked={isLibrarian}
                 />
               </Grid>
               <Grid item xs={12}>

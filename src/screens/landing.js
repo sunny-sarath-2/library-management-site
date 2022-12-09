@@ -3,6 +3,7 @@ import Dashboard from "../dashboard/dashboard";
 import API from "../services/API";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import { getUserType } from "../common/common";
 
 export default class Landing extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Landing extends React.Component {
   }
   async componentDidMount() {
     let userId = localStorage.getItem("user");
-
+    getUserType();
     this.getUser(userId);
   }
 
