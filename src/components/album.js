@@ -13,6 +13,18 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export default function Album(props) {
+  let images = [
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdfpFTpK1IGbNEMANtsT4yJT6Gz4ozm3313Dk15vH84WgLdFNHMA1EOKQYZIyHil72qzY&usqp=CAU",
+    "https://i.harperapps.com/covers/9780062889805/x300.jpg",
+    "https://www.abramsbooks.com/wp-content/uploads/2016/04/9781419723445-208x300.jpg",
+    "https://i.pinimg.com/736x/49/10/13/4910136af3577d4ce0bba0e1271c9515.jpg",
+    "https://www.openculture.com/wp-content/uploads/2011/04/harperlee1.jpeg",
+    "https://www.alastore.ala.org/sites/default/files/styles/imagezoom_gallery_image/public/book_covers/9781728244853.jpg?itok=G-Q6s4T2",
+    "https://www.theuncorkedlibrarian.com/wp-content/uploads/2021/12/Books-With-A-Color-In-The-Title.jpg.webp",
+    "https://www.maryhannawilson.com/wp-content/uploads/2021/02/Booklist-for-Kids-PINs-683x1024.jpg",
+    "https://everyday-reading.com/wp-content/uploads/2018/09/Recommended-POI.jpg",
+    "https://i.harperapps.com/covers/9780062317650/x300.jpg",
+  ];
   return (
     <ThemeProvider theme={theme}>
       <main>
@@ -20,10 +32,11 @@ export default function Album(props) {
         <Container sx={{ py: 8 }} maxWidth="lg">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {props.books.map((book) => (
+            {props.books.map((book, index) => (
               <Grid item key={book._id} xs={12} sm={6} md={4}>
                 <Card
                   sx={{
+                    width: "300px",
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
@@ -36,7 +49,7 @@ export default function Album(props) {
                         // 16:9
                       }
                     }
-                    image="https://source.unsplash.com/random"
+                    image={images[index % 10]}
                     alt="random"
                   />
                   <CardContent
